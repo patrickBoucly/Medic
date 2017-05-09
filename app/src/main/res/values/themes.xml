@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_green">#002000</color>
+    <color name="yellow">#ffff00</color>
+    <style name="ThemeTest" parent="@android:style/Theme.Holo">
+        <item name="android:background">@color/dark_green</item>
+        <item name="android:textColor">@color/yellow</item>
+    </style>
+</resources>
