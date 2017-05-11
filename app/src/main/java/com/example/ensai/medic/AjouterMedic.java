@@ -35,6 +35,8 @@ import static com.example.ensai.medic.R.id.tv2;
 public class AjouterMedic extends Activity {
 
     private EditText tv3;
+    private  String text;
+    private String denom;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,43 +62,38 @@ public class AjouterMedic extends Activity {
             public void onResponse(Response response) throws IOException {
 
                 //le retour est effectué dans un thread différent
-                final String text = response.body().string();
-                try {
 
-                    JSONObject json = new JSONObject(text);
+                try {
+                    text = response.body().string();
+                    JSONArray json = new JSONArray(text);
+                    Log.d("test", json.toString());
+
+                    for (int i = 0; i < json.length(); i++) {
+                        JSONObject jsonobject = json.getJSONObject(i);
+                         denom = jsonobject.getString("denomination");
+                        String code = jsonobject.getString("codeCIS");
+                        Log.d("test1", denom);
+                        Log.d("test2",code);
+
+                    }
 
                 } catch (JSONException exc){
 
                     exc.printStackTrace();
                 }
 
-                JSONObject object = null;
-                final int statusCode = response.code();
-
-                try {
-                    JSONArray jsonArray = new JSONArray(text);
-                    Log.i("TEST00",
-                            "Number of entries " + jsonArray.length());
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        Log.i("TETS0", jsonObject.getString("text"));
-                    }
-
-                    final JSONObject monObject = object;
 
 
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
-                }
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Log.i("TEST", text);
                         tv3.setText(text);
                     }
-                });
-            }
-        });
+                }); // fin runOnUiThread
+            } // fin onResponse
+        });//fin Callback
 
     }
 
