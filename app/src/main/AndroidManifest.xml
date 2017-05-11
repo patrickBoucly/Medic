@@ -16,6 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MaPharma"></activity>
+        <activity android:name=".AjouterMedic"></activity>
+        <activity android:name=".MesVaccins"></activity>
+        <activity android:name=".Geoloc"></activity>
     </application>
 
 </manifest>

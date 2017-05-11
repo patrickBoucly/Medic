@@ -15,7 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv"
-        android:text="zone logo Ma pharmacie" />
+        android:text="zone logo Ma pharmacie"
+        />
 
     <Button
         android:id="@+id/menu_pharma"
@@ -23,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Ma pharmacie"
         android:drawableLeft="@drawable/pharma"
+        android:onClick="vers_pharma"
         />
     <Button
         android:id="@+id/ajouter_medic"
@@ -30,6 +32,7 @@
         android:layout_height="wrap_content"
         android:text="Ajouter un médicament"
         android:drawableLeft="@drawable/new_medic"
+        android:onClick="vers_ajouter_medic"
         />
     <Button
         android:id="@+id/vaccin"
@@ -37,6 +40,7 @@
         android:layout_height="wrap_content"
         android:text="Mes vaccins"
         android:drawableLeft="@drawable/vaccins"
+        android:onClick="vers_vaccin"
         />
     <Button
         android:id="@+id/geoloc"
@@ -44,6 +48,7 @@
         android:layout_height="wrap_content"
         android:text="Pharmacie à proximité"
         android:drawableLeft="@drawable/geoloc"
+        android:onClick="vers_geoloc"
         />
 
 
