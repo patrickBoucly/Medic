@@ -15,7 +15,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv2"
-        android:text="Ecran: Ajouter Medicament" />
+        android:text="Ecran: Ajouter Medicament"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv3"
+     />
 
 
 

@@ -28,48 +28,7 @@ public class MainActivity extends Activity {
         textView = (TextView) findViewById(R.id.tv);
 
 
-        /*OkHttpClient okhttpClient = new OkHttpClient();
-        Request myGetRequest = new Request.Builder()
-                .url("https://open-medicaments.fr/api/v1/medicaments?query=doliprane")
-                .build();
-        okhttpClient.newCall(myGetRequest).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
 
-            }
-
-            @Override
-            public void onResponse(Response response) throws IOException {
-
-                //le retour est effectué dans un thread différent
-                final String text = response.body().string();
-                JSONObject object=null;
-                final int statusCode = response.code();
-                try {
-
-                    JSONObject Jobject = new JSONObject(text);
-                    JSONArray Jarray = Jobject.getJSONArray("denomination");
-
-                    for (int i = 0; i < Jarray.length(); i++) {
-                        object = Jarray.getJSONObject(i);
-
-                        System.out.println(object.getString("denomination"));
-                    }
-
-                    final JSONObject monObject=object;
-
-
-                }catch(JSONException ex){
-                    ex.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        textView.setText(text);
-                    }
-                });
-            }
-        });*/
 
     }
 
