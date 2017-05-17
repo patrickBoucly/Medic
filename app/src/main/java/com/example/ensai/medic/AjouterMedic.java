@@ -2,11 +2,14 @@ package com.example.ensai.medic;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -26,6 +29,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.ensai.medic.R.id.tv2;
 
@@ -37,16 +42,21 @@ public class AjouterMedic extends Activity {
     private EditText tv3;
     private  String text;
     private String denom;
+    ListView listeView= null;
+
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ajoutermedic);
         TextView tv2 = (TextView) findViewById(R.id.tv2);
+        listeView = (ListView) findViewById(R.id.maVue);
          tv3 = (EditText) findViewById(R.id.tv3);
         OkHttpClient okhttpClient = new OkHttpClient();
         Request myGetRequest = new Request.Builder()
                 .url("https://open-medicaments.fr/api/v1/medicaments?query=doliprane")
                 .build();
+
 
 
 
@@ -76,6 +86,16 @@ public class AjouterMedic extends Activity {
                         Log.d("test2",code);
 
                     }
+                    List<String> list = new ArrayList<String>();
+                    for(int i = 0; i < json.length(); i++){
+                        String info = json.getJSONObject(i).getString("denomination") + json.getJSONObject(i).getString("codeCIS");
+                        list.add(info);
+                        Log.d("test3", info);
+
+                    }
+
+
+
 
                 } catch (JSONException exc){
 
@@ -90,6 +110,7 @@ public class AjouterMedic extends Activity {
                     public void run() {
                         Log.i("TEST", text);
                         tv3.setText(text);
+
                     }
                 }); // fin runOnUiThread
             } // fin onResponse
