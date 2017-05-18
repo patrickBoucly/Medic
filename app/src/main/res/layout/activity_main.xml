@@ -50,6 +50,14 @@
         android:drawableLeft="@drawable/geoloc"
         android:onClick="vers_geoloc"
         />
+    <Button
+        android:id="@+id/scan"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Scanner"
+        android:drawableLeft="@drawable/qrcode"
+        android:onClick="vers_scan"
+        />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

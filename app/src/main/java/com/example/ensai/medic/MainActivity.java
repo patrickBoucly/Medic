@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
     private Button ajouter_medic;
     private Button vaccin;
     private Button geoloc;
+    private Button scan;
     private TextView textView;
 
     @Override
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
         vaccin = (Button) findViewById((R.id.vaccin));
         geoloc = (Button) findViewById((R.id.geoloc));
         textView = (TextView) findViewById(R.id.tv);
+        scan= (Button) findViewById(R.id.scan);
 
 
 
@@ -52,6 +54,10 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, Geoloc.class);
         startActivity(intent);
     }
-
+    public void vers_scan(View v) {
+        Toast.makeText(this, "Bienvenue sur l'écran Scan", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, Scan.class);
+        startActivity(intent);
+    }
 
 }
