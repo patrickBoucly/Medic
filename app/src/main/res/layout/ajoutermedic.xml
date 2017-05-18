@@ -23,9 +23,26 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv3"
      />
+    <Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/bouton_rechercher"
+    android:text="rechercher"
+    />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bouton_ajouter"
+        android:text="ajouter"
+        />
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/resultats"
 
+        >
 
-
+    </ListView>
 
 
 </LinearLayout>
