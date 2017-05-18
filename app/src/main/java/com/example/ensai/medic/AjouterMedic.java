@@ -49,6 +49,7 @@ public class AjouterMedic extends Activity implements View.OnClickListener,Adapt
     private Button bouton_rechercher;
     private ListView resultats;
     private ArrayList<String> medic= new ArrayList<String>();
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ajoutermedic);

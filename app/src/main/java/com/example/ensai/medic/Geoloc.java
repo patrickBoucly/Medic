@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -58,13 +59,14 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static android.R.id.list;
+import static com.example.ensai.medic.R.id.resultats;
 
 public class Geoloc extends Activity {
 
     private EditText tv3;
     private  String text;
     private String denom;
-    ListView listeView= null;
+
     List<String> list = new ArrayList<String>();
 
     private LocationManager locationManager;
@@ -72,6 +74,7 @@ public class Geoloc extends Activity {
     double latitude=0;
     double longitude=0;
     Location coordonnees;
+    ListView resultats;
 
 
 
@@ -80,10 +83,11 @@ public class Geoloc extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ajoutermedic);
-        TextView tv2 = (TextView) findViewById(R.id.tv2);
-        listeView = (ListView) findViewById(R.id.maVue);
-        tv3 = (EditText) findViewById(R.id.tv3);
+        setContentView(R.layout.geoloc);
+        //TextView tv2 = (TextView) findViewById(R.id.tv2);
+       // listeView = (ListView) findViewById(R.id.maVue);
+        //tv3 = (EditText) findViewById(R.id.tv3);
+        resultats = (ListView) findViewById(R.id.resultats_geoloc);
 
 // on demande à l'utilisateur l'acces au GPS (obligatoire depuis la version 6.0)
         ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
@@ -156,6 +160,7 @@ public class Geoloc extends Activity {
 
                                         }
 
+
                                     } catch (JSONException exc) {
 
                                         exc.printStackTrace();
@@ -166,7 +171,10 @@ public class Geoloc extends Activity {
                                         @Override
                                         public void run() {
                                             //Log.i("TEST", text);
-                                            tv3.setText(list.toString());
+                                           //tv3.setText(list.toString());
+                                            final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Geoloc.this,
+                                                    android.R.layout.simple_list_item_1, list);
+                                            resultats.setAdapter(adapter);
 
                                         }
                                     }); // fin runOnUiThread
