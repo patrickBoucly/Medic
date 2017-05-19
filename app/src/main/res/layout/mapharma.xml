@@ -17,7 +17,12 @@
         android:id="@+id/tv2"
         android:text="Ecran: Ma Pharmacie" />
 
+<ListView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/mes_medic"
 
+    ></ListView>
 
 
 

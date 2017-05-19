@@ -7,14 +7,22 @@ package com.example.ensai.medic;
 public class Medic {
     String name;
     int idMedic;
+    String codeCIS;
     //int quantity;
-    public Medic(String name,int idMedic/*,int quantity*/){
+    public Medic(int idMedic,String codeCIS,String name){
         super();
         this.setName(name);
         this.setIdMedic(idMedic);
+        this.setCodeCIS(codeCIS);
       //  this.setQuantity(quantity);
     }
 
+    public void setCodeCIS(String codeCIS) {
+        this.codeCIS=codeCIS;
+    }
+    public String getCodeCIS() {
+        return codeCIS;
+    }
     public String getName(){
         return this.name;
     }
