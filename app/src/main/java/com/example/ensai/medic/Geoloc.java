@@ -202,10 +202,18 @@ public class Geoloc extends Activity {
                                                     n.putExtra("position", position);
                                                     Log.i("Envoi",""+ resultats.getItemAtPosition(position).toString());
                                                     try {
-                                                        // Uri uri = Uri.parse("geo:"+longitude+","+latitude);
-                                                        Uri uri = Uri.parse("geo:0,0?q="+resultats.getItemAtPosition(position).toString());
-                                                        Intent it = new Intent(Intent.ACTION_VIEW,uri);
-                                                        startActivity(it);
+                                                        //pour afficher juste la pharmacie choisie
+                                                       // Uri uri = Uri.parse("geo:0,0?q="+resultats.getItemAtPosition(position).toString());
+                                                       // Intent it = new Intent(Intent.ACTION_VIEW,uri);
+                                                        //startActivity(it);
+
+                                                        // pour afficher le trajet entre localisation user et la pharmacie choisie
+                                                        String uri = "http://maps.google.com/maps?saddr=" + coordonnees.getLatitude()+","+coordonnees.getLongitude()+"&daddr="+resultats.getItemAtPosition(position).toString();
+                                                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                                                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                                                        startActivity(intent);
+
+
                                                     } catch(ActivityNotFoundException e) {
                                                         (Toast.makeText(getApplicationContext(), "GoogleMap non trouvé", Toast.LENGTH_LONG)).show();
                                                     }
