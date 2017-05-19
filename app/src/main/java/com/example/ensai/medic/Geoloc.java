@@ -209,6 +209,7 @@ public class Geoloc extends Activity {
                                                     } catch(ActivityNotFoundException e) {
                                                         (Toast.makeText(getApplicationContext(), "GoogleMap non trouvé", Toast.LENGTH_LONG)).show();
                                                     }
+                                                    //test
                                                    // startActivity(n);
                                                 }
                                             });
