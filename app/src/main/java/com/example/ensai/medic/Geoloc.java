@@ -20,6 +20,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -176,6 +177,34 @@ public class Geoloc extends Activity {
                                                     android.R.layout.simple_list_item_1, list);
                                             resultats.setAdapter(adapter);
 
+                                            resultats.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+                                                public void onItemClick(AdapterView<?> arg0,View arg1, int position, long id){
+
+
+                                                    Intent n = new Intent(getApplicationContext(), MaPharma.class);
+                                                    n.putExtra("position", position);
+                                                    Log.i("Envoi",""+ resultats.getItemAtPosition(position).toString());
+                                                    try {
+                                                        // Uri uri = Uri.parse("geo:"+longitude+","+latitude);
+                                                        Uri uri = Uri.parse("geo:0,0?q="+resultats.getItemAtPosition(position).toString());
+                                                        Intent it = new Intent(Intent.ACTION_VIEW,uri);
+                                                        startActivity(it);
+                                                    } catch(ActivityNotFoundException e) {
+                                                        (Toast.makeText(getApplicationContext(), "GoogleMap non trouvé", Toast.LENGTH_LONG)).show();
+                                                    }
+                                                   // startActivity(n);
+                                                }
+                                            });
+
+
+
+
+
+
+
+
+
                                         }
                                     }); // fin runOnUiThread
                                 } // fin onResponse
@@ -202,4 +231,11 @@ public class Geoloc extends Activity {
             // permissions this app might request
         }
     }
+
+
+
+
+
+
+
 }

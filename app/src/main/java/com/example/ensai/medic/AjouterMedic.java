@@ -70,6 +70,7 @@ public class AjouterMedic extends Activity implements View.OnClickListener,Adapt
             case R.id.bouton_ajouter:
 
                 // do something when the corky is clicked
+                Toast.makeText(this, "Ajout d'un medicament dans la pharmacie personnelle", Toast.LENGTH_LONG).show();
 
                 break;
             case R.id.bouton_rechercher:
