@@ -99,6 +99,10 @@ public class Geoloc extends Activity {
 
 
 
+
+
+
+
     // fonction qui gère les autorisations d'acces au gps de l'utilisateur
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -112,7 +116,9 @@ public class Geoloc extends Activity {
 
                             //---use the LocationManager class to obtain GPS locations---
 
+
                             locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
                             locationListener = new MyLocationListener();
                             locationManager.requestLocationUpdates(
                                     LocationManager.GPS_PROVIDER,
@@ -120,8 +126,18 @@ public class Geoloc extends Activity {
                                     0,
                                     locationListener);
                              coordonnees = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            //coordonnees=locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                            if(coordonnees==null){
+                                Toast.makeText(this, "Dernière localisation impossible", Toast.LENGTH_LONG).show();
+                                coordonnees=new Location("");//provider name is unnecessary
+                                coordonnees.setLatitude(48.033329d);//your coords of course
+                                coordonnees.setLongitude(-1.75d);
+                            }
+
+
                              latitude = coordonnees.getLatitude();
                              longitude=coordonnees.getLongitude();
+
                             Log.d("Coord.brutes", "Coordonnées:"+" latitude=" +latitude+" , longitude= "+longitude);
 
 
