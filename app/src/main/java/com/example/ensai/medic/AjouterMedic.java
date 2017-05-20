@@ -3,6 +3,7 @@ package com.example.ensai.medic;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ActivityNotFoundException;
+import android.content.ContentProvider;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -195,13 +196,15 @@ public class AjouterMedic extends Activity implements View.OnClickListener,Adapt
                                 resultats.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
                                     public void onItemClick(AdapterView<?> arg0,View arg1, int position, long id){
-
+                                        /*
 
                                         Intent n = new Intent(getApplicationContext(), MaPharma.class);
                                         n.putExtra("position", position);
                                         Log.i("Envoi",""+id+"      "+ resultats.getItemAtPosition(position).toString());
                                         try {
-                                            Boolean res=(sContext==null);
+
+                                        */
+                                            Boolean res=(ContextProvider.getContext()==null);
                                             String str="false";
                                             if(res){
                                                 str="true";
@@ -210,13 +213,15 @@ public class AjouterMedic extends Activity implements View.OnClickListener,Adapt
 
                                             medicDAO.open();
                                             String name=medics.get(position).getName();
-                                            String cis=medics.get(position).getCodeCIS();
-                                            medicDAO.createMedic(name,cis);
+                                            String cis=medics.get(position).getCodeCIS().toString();
+                                        Log.i("nb_av",""+medicDAO.getAllMedics().size());
+                                            medicDAO.add(name,cis);
+                                        Log.i("nb_ap",""+medicDAO.getAllMedics().size());
 
 
-                                        } catch(ActivityNotFoundException e) {
+                                       /* } catch(ActivityNotFoundException e) {
                                             (Toast.makeText(getApplicationContext(), "Médicament non ajouté", Toast.LENGTH_LONG)).show();
-                                        }
+                                          }*/
                                         //test
                                         // startActivity(n);
                                     }

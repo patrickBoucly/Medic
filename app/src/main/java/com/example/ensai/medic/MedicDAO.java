@@ -4,6 +4,7 @@ package com.example.ensai.medic;
  * Created by ensai on 19/05/17.
  */
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +13,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-public class MedicDAO {
 
+
+public class MedicDAO {
+    public static final String SAVE = "INSERT INTO pharmacie VALUES (NULL, ?, ?);";
     // Champs de la base de données
     private SQLiteDatabase database;
     private MySQLiteHelper dbHelper;
@@ -33,17 +37,29 @@ public class MedicDAO {
     public void close() {
         dbHelper.close();
     }
+    public void add(String name,String cis){
+        SQLiteStatement statement = database.compileStatement(SAVE);
 
+        statement.bindString(1, name);
+        statement.bindString(2, cis);
+
+        statement.execute();
+
+        statement.close();
+
+    }
     public Medic createMedic(String name,String cis) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_CIS, cis);
         values.put(MySQLiteHelper.COLUMN_Name, name);
-        String res="";
+       /* String res="";
         for(String key :values.keySet()){
             res+=key+"    ";
         }
 
         Log.i("key     ",""+res);
+        */
+
         long insertId = database.insert(MySQLiteHelper.TABLE_PHARMACIE, null,
                 values);
 
