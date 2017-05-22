@@ -34,13 +34,14 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.widget.Toast;
-
-
+import  	android.location.Geocoder;
+import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.identity.intents.Address;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.MapView;
 import com.squareup.okhttp.Callback;
@@ -76,6 +77,8 @@ public class Geoloc extends Activity {
     double longitude=0;
     Location coordonnees;
     ListView resultats;
+    TextView loc;
+    String localisation="Position actuelle :";
 
 
 
@@ -89,7 +92,7 @@ public class Geoloc extends Activity {
        // listeView = (ListView) findViewById(R.id.maVue);
         //tv3 = (EditText) findViewById(R.id.tv3);
         resultats = (ListView) findViewById(R.id.resultats_geoloc);
-
+        loc=(TextView) findViewById(R.id.ma_localisation);
 // on demande à l'utilisateur l'acces au GPS (obligatoire depuis la version 6.0)
         ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         //cela renvoie à la fonction onRequestPermissionsResult
@@ -126,6 +129,7 @@ public class Geoloc extends Activity {
                                     0,
                                     locationListener);
                              coordonnees = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
                             //coordonnees=locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
                             if(coordonnees==null){
                                 Toast.makeText(this, "Dernière localisation impossible", Toast.LENGTH_LONG).show();
@@ -139,6 +143,26 @@ public class Geoloc extends Activity {
                              longitude=coordonnees.getLongitude();
 
                             Log.d("Coord.brutes", "Coordonnées:"+" latitude=" +latitude+" , longitude= "+longitude);
+
+                            try {
+                                List<android.location.Address> addresses = null;
+
+                                Geocoder geocoder=new Geocoder(this);
+                                addresses = geocoder.getFromLocation(latitude,
+                                        longitude,
+                                        // In this sample, get just a single address.
+                                        1);
+                                loc.setText("Position actuelle :"+addresses.get(0).getAddressLine(0)+",  "+addresses.get(0).getLocality());
+                            } catch (IOException ioException) {
+
+                            } catch (IllegalArgumentException illegalArgumentException) {
+
+                            }
+
+
+
+
+
 
 
                             // on lance la requete des pharmacies autour

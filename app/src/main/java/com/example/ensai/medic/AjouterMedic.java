@@ -217,7 +217,9 @@ public class AjouterMedic extends Activity implements View.OnClickListener,Adapt
                                         Log.i("nb_av",""+medicDAO.getAllMedics().size());
                                             medicDAO.add(name,cis);
                                         Log.i("nb_ap",""+medicDAO.getAllMedics().size());
+                                        Intent n = new Intent(getApplicationContext(), MaPharma.class);
 
+                                        startActivity(n);
 
                                        /* } catch(ActivityNotFoundException e) {
                                             (Toast.makeText(getApplicationContext(), "Médicament non ajouté", Toast.LENGTH_LONG)).show();

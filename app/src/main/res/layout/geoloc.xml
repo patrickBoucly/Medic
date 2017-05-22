@@ -7,7 +7,12 @@
     android:background="#ffffff"
     android:orientation="vertical">
 
-
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/ma_localisation"
+    android:text="Position actuelle :"
+    />
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
