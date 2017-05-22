@@ -22,12 +22,12 @@ public class MedicDAO {
     public static final String SAVE = "INSERT INTO pharmacie VALUES (NULL, ?, ?);";
     // Champs de la base de données
     private SQLiteDatabase database;
-    private MySQLiteHelper dbHelper;
+    private MySQLiteHelperCode dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,MySQLiteHelper.COLUMN_CIS,
             MySQLiteHelper.COLUMN_Name};
 
     public MedicDAO(Context context) {
-        dbHelper = new MySQLiteHelper(context);
+        dbHelper = new MySQLiteHelperCode(context);
     }
 
     public void open() throws SQLException {
@@ -38,6 +38,7 @@ public class MedicDAO {
         dbHelper.close();
     }
     public void add(String name,String cis){
+
         SQLiteStatement statement = database.compileStatement(SAVE);
 
         statement.bindString(1, name);
