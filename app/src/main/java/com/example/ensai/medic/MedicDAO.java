@@ -4,6 +4,7 @@ package com.example.ensai.medic;
  * Created by ensai on 19/05/17.
  */
 
+import java.io.BufferedReader;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +23,12 @@ public class MedicDAO {
     public static final String SAVE = "INSERT INTO pharmacie VALUES (NULL, ?, ?);";
     // Champs de la base de données
     private SQLiteDatabase database;
-    private MySQLiteHelperCode dbHelper;
+    private MySQLiteHelper dbHelper;
     private String[] allColumns = { MySQLiteHelper.COLUMN_ID,MySQLiteHelper.COLUMN_CIS,
             MySQLiteHelper.COLUMN_Name};
 
     public MedicDAO(Context context) {
-        dbHelper = new MySQLiteHelperCode(context);
+        dbHelper = new MySQLiteHelper(context);
     }
 
     public void open() throws SQLException {
@@ -49,6 +50,8 @@ public class MedicDAO {
         statement.close();
 
     }
+
+    /*
     public Medic createMedic(String name,String cis) {
         ContentValues values = new ContentValues();
         values.put(MySQLiteHelper.COLUMN_CIS, cis);
@@ -59,7 +62,7 @@ public class MedicDAO {
         }
 
         Log.i("key     ",""+res);
-        */
+
 
         long insertId = database.insert(MySQLiteHelper.TABLE_PHARMACIE, null,
                 values);
@@ -71,14 +74,9 @@ public class MedicDAO {
         Medic newMedic = cursorToMedic(cursor);
         cursor.close();
         return newMedic;
-    }
+    }*/
 
-    public void deleteMedicID(Medic medic) {
-        int id = medic.getIdMedic();
-        System.out.println("Medicament ayant l'identifiant suivant effacé :" + id);
-        database.delete(MySQLiteHelper.TABLE_PHARMACIE, MySQLiteHelper.COLUMN_ID
-                + " = " + id, null);
-    }
+
     public void deleteMedicCIS(Medic medic) {
         String cis = medic.getCodeCIS();
         System.out.println("Medicament ayant le code CIS suivant effacé :" + cis);
@@ -109,4 +107,17 @@ public class MedicDAO {
         Medic medic = new Medic(cursor.getInt(0),cursor.getString(1),cursor.getString(2));
         return medic;
     }
+    public static List<String> readLines(BufferedReader reader) throws Exception {
+
+        List<String> results = new ArrayList<String>();
+        String line = reader.readLine();
+        while (line != null) {
+            results.add(line);
+            line = reader.readLine();
+        }
+        return results;
+    }
+
+
+
 }

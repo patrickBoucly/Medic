@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.example.ensai.medic.ContextProvider.sContext;
+
 
 public class MainActivity extends Activity {
     private Button buttonPharma;
@@ -38,38 +40,16 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MySQLiteHelperCode bddCode=new MySQLiteHelperCode(this);
-        MySQLiteHelper bddPharma=new MySQLiteHelper(this);
-        CodeDAO daoCode=new CodeDAO(this);
-        Log.i("zzz","ici");
-/*
-        AssetManager mngr = getAssets();
+        MySQLiteHelper bdd=new MySQLiteHelper(this);
+        bdd.getWritableDatabase();
 
-        try {
-            InputStream iS = mngr.open("CIS_CIP.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(iS));
 
-            List<String> codes=readLines(reader);
-            // read every line of the file into the line-variable, on line at the time
-            int i=1;
-            List<Code> mesCodes=null;
-            for(String line:codes){
 
-                    //Log.i("zzz", "a" + line.substring(0, 8) + "b" + line.substring(9)+"i:"+i);
-                mesCodes.add(new Code(line.substring(0,8),line.substring(9)));
-                i++;
-            }
-            for(Code c:mesCodes){
-                daoCode.add(c);
-            }
+      AssetManager mngr=getAssets();
+       bdd.initialize(mngr);
 
-        }catch (IOException e){
-            e.printStackTrace();
-        }catch (Exception e){
 
-        }
-        */
-        //Log.i("taille",""+daoCode.getAll().size());
+
 
         buttonPharma = (Button) findViewById((R.id.menu_pharma));
         ajouter_medic = (Button) findViewById((R.id.ajouter_medic));
@@ -77,8 +57,6 @@ public class MainActivity extends Activity {
         geoloc = (Button) findViewById((R.id.geoloc));
         textView = (TextView) findViewById(R.id.tv);
         scan= (Button) findViewById(R.id.scan);
-
-
 
 
     }
@@ -108,14 +86,5 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, Scan.class);
         startActivity(intent);
     }
-    public static List<String> readLines(BufferedReader reader) throws Exception {
 
-        List<String> results = new ArrayList<String>();
-        String line = reader.readLine();
-        while (line != null) {
-            results.add(line);
-            line = reader.readLine();
-        }
-        return results;
-    }
 }

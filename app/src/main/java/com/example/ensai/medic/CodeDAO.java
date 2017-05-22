@@ -2,34 +2,44 @@ package com.example.ensai.medic;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.ensai.medic.ContextProvider.sContext;
+import static com.example.ensai.medic.MedicDAO.readLines;
 
 /**
  * Created by ensai on 22/05/17.
  */
 
 public class CodeDAO {
-    public static final String SAVE = "INSERT INTO code VALUES (NULL, ?, ?);";
-    public static final String SHEARCH = "SELECT cis from code where cip=?);";
+    public static final String SAVE_CODE = "INSERT INTO code VALUES (NULL, ?, ?);";
+    public static final String SEARCH_ALL_CODE= "SELECT * from code;";
     // Champs de la base de données
-    private SQLiteDatabase database;
-    private MySQLiteHelperCode dbHelper;
-    private String[] allColumns = { MySQLiteHelperCode.COLUMN_ID,MySQLiteHelperCode.COLUMN_CIS,
-            MySQLiteHelperCode.COLUMN_CIP};
+    private SQLiteDatabase db;
+    private MySQLiteHelper dbHelper;
+    private String[] allColumns_code = {MySQLiteHelper.COLUMN_CIS,
+            MySQLiteHelper.COLUMN_CIP};
 
     public CodeDAO(Context context) {
-        dbHelper = new MySQLiteHelperCode(context);
+        dbHelper = new MySQLiteHelper(context);
     }
 
     public void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
     }
 
     public void close() {
@@ -37,35 +47,72 @@ public class CodeDAO {
     }
 
     public void add(Code code){
-        SQLiteStatement statement = database.compileStatement(SAVE);
+        db = dbHelper.getReadableDatabase();
+        SQLiteStatement statement = db.compileStatement(SAVE_CODE);
 
-        statement.bindString(1, code.getCis());
-        statement.bindString(2, code.getCip());
+        statement.bindString(0, code.getCis());
+        statement.bindString(1, code.getCip());
         statement.execute();
         statement.close();
 
     }
     public String getCIS(String cip){
+        db = dbHelper.getReadableDatabase();
         String res="";
         String req="SELECT cis from code where cip="+cip;
-        Cursor cursor = database.rawQuery(req, null);
+
+
+        Cursor cursor = db.rawQuery(req, null);
         if (cursor.moveToFirst()) {
             do {
                 res=cursor.getString(0);
             } while (cursor.moveToNext());
         }
+        this.close();
         return res;
     }
     public List<Code> getAll(){
+        this.open();
         List<Code> res=null;
-        String req="SELECT cis,cip from code";
-       Log.i("path", database.getPath().toString());
-        Cursor cursor = database.rawQuery(req, null);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(SEARCH_ALL_CODE, null);
         if (cursor.moveToFirst()) {
             do {
-                res.add(new Code(cursor.getString(1),cursor.getString(2)));
+                res.add(new Code(cursor.getString(0),cursor.getString(1)));
             } while (cursor.moveToNext());
         }
         return res;
     }
+    public void initialize(AssetManager mngr){
+
+
+
+        try {
+            InputStream iS = mngr.open("CIS_CIP.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(iS));
+            List<String> lignes=readLines(reader);
+           for(String line:lignes){
+                this.add(new Code(line.substring(0,8),line.substring(9)));
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+//        Log.i("test" ,""+this.getAll().size());
+        Log.i("test get cis " ,""+this.getCIS("3400935510259"));
+    }
+    public static List<String> readLines(BufferedReader reader) throws Exception {
+
+        List<String> results = new ArrayList<String>();
+        String line = reader.readLine();
+        while (line != null) {
+            results.add(line);
+            line = reader.readLine();
+        }
+        return results;
+    }
+
+
+
 }
