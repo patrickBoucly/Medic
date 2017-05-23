@@ -1,8 +1,13 @@
 package com.example.ensai.medic;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,6 +21,7 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 
 /**
@@ -23,7 +29,7 @@ import android.widget.ArrayAdapter;
  */
 public class MaPharma extends Activity {
     Button bouton2 = null;
- ListView mes_medic;
+    ListView mes_medic;
     private MedicDAO medicDAO;
     private MonAdapter mesAdapter;
 
@@ -32,7 +38,6 @@ public class MaPharma extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mapharma);
         mes_medic = (ListView) findViewById(R.id.mes_medic);
-
         medicDAO= new MedicDAO(this);
         medicDAO.open();
         //medicDAO.createMedic("bière","blonde");
@@ -47,22 +52,59 @@ public class MaPharma extends Activity {
         ArrayAdapter adapter =new ArrayAdapter(this, android.R.layout.simple_list_item_1, noms);
         //MonAdapter adapter =new MonAdapter(values);
 
-        ListView lv = (ListView)findViewById(R.id.mes_medic);
-        lv.setAdapter(adapter);
+        mes_medic.setAdapter(adapter);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mes_medic.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+                    public void onItemClick(AdapterView<?> arg0,View arg1, int position, long id){
+
+                        Intent n = new Intent(getApplicationContext(), MaPharma.class);
+                        n.putExtra("position", position);
+                        Log.i("Envoi",""+ mes_medic.getItemAtPosition(position).toString());
+                        try {
+                            /*
+                            //pour afficher juste la pharmacie choisie
+                            String uri = "http://maps.google.com/maps?saddr=" + coordonnees.getLatitude()+","+coordonnees.getLongitude()+"&daddr="+resultats.getItemAtPosition(position).toString();
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                            intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                            startActivity(intent);
+
+*/
+                        } catch(ActivityNotFoundException e) {
+                            (Toast.makeText(getApplicationContext(), "GoogleMap non trouvé", Toast.LENGTH_LONG)).show();
+                        }
+                        //test
+                        // startActivity(n);
+                    }
+                });
+
+
+
+
+
+
+
+
+
+            }
+        }); // fin runOnUiThread
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
 
-    /*public void clickBouton2(View v) {
-        Toast.makeText(this, "Coucou2", Toast.LENGTH_LONG).show();
-        Base base  = list_item Base(this);
-        SQLiteDatabase writableDB = base.getReadableDatabase();
-        ContentValues values = list_item ContentValues();
-        values.put("nom", ((TextView) findViewById(R.id.zoneTexte1)).getText().toString());
-        values.put("description",((TextView) findViewById(R.id.zoneTexte2)).getText().toString());
-        writableDB.insert(base.getDatabaseName(), null, values);
 
-        finish();
-    }*/
 
 }

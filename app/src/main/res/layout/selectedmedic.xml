@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/selectedmedic"
+
+        />
+
+    <Button
+        android:text="Supprimer ce médicament de ma pharmacie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/supprimer" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/info" />
+</LinearLayout>
