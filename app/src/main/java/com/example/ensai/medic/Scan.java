@@ -92,9 +92,13 @@ public class Scan extends Activity implements View.OnClickListener {
             TextView scan_content = (TextView) findViewById(R.id.scan_content);
 
 // nous affichons le résultat dans nos TextView
+            CodeDAO dao =new CodeDAO(this);
 
+            String cis=dao.getCIS(scanContent);
             scan_format.setText("FORMAT: " + scanFormat);
-            scan_content.setText("CONTENT: " + scanContent);
+            scan_content.setText("CIS: " + cis);
+
+
 
         }
         else{

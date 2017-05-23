@@ -43,6 +43,7 @@ public class CodeDAO {
         dbHelper.close();
     }
     public void add(Code code){
+
         open();
         ContentValues values = new ContentValues();
         values.put("cis", code.getCis());
