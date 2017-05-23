@@ -6,8 +6,10 @@ package com.example.ensai.medic;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +22,15 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Scan extends Activity implements View.OnClickListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +39,33 @@ public class Scan extends Activity implements View.OnClickListener {
 
         Button mybutton = (Button) findViewById(R.id.scan_button);
         mybutton.setOnClickListener(this);
+
+        AssetManager mngr=this.getAssets();
+
+        Log.i("ini" ,"en cours");
+
+        CodeDAO dao=new CodeDAO(this);
+
+
+        if(dao.getAll().size()==0) {
+            try {
+                InputStream iS = mngr.open("CIS_CIP.txt");
+                BufferedReader reader = new BufferedReader(new InputStreamReader(iS));
+                List<String> lignes = readLines(reader);
+                for (String line : lignes) {
+                        String cis=line.substring(0, 8);
+                        String cip=line.substring(9);
+                        dao.add(new Code(cis,cip));
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -59,6 +95,7 @@ public class Scan extends Activity implements View.OnClickListener {
 
             scan_format.setText("FORMAT: " + scanFormat);
             scan_content.setText("CONTENT: " + scanContent);
+
         }
         else{
             Toast toast = Toast.makeText(getApplicationContext(),
@@ -89,4 +126,21 @@ public class Scan extends Activity implements View.OnClickListener {
 
        // return super.onOptionsItemSelected(item);
     }
+
+
+
+    public static List<String> readLines(BufferedReader reader) throws Exception {
+
+        List<String> results = new ArrayList<String>();
+        String line = reader.readLine();
+        while (line != null) {
+            results.add(line);
+            line = reader.readLine();
+        }
+        return results;
+    }
+
+
+
+
 }

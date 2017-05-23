@@ -20,6 +20,7 @@ import java.util.List;
 
 import static com.example.ensai.medic.ContextProvider.sContext;
 import static com.example.ensai.medic.MedicDAO.readLines;
+import static com.example.ensai.medic.MySQLiteHelper.TABLE_CODE;
 
 /**
  * Created by ensai on 22/05/17.
@@ -31,9 +32,6 @@ public class CodeDAO {
     // Champs de la base de données
     private SQLiteDatabase db;
     private MySQLiteHelper dbHelper;
-    private String[] allColumns_code = {MySQLiteHelper.COLUMN_CIS,
-            MySQLiteHelper.COLUMN_CIP};
-
     public CodeDAO(Context context) {
         dbHelper = new MySQLiteHelper(context);
     }
@@ -41,47 +39,46 @@ public class CodeDAO {
     public void open() throws SQLException {
         db = dbHelper.getWritableDatabase();
     }
-
     public void close() {
         dbHelper.close();
     }
-
     public void add(Code code){
-        db = dbHelper.getReadableDatabase();
-        SQLiteStatement statement = db.compileStatement(SAVE_CODE);
-
-        statement.bindString(0, code.getCis());
-        statement.bindString(1, code.getCip());
-        statement.execute();
-        statement.close();
-
+        open();
+        ContentValues values = new ContentValues();
+        values.put("cis", code.getCis());
+        values.put("cip", code.getCip());
+// Inserting Row
+        db.insert(TABLE_CODE, null, values);
+        close(); // Closing database connection
     }
+
     public String getCIS(String cip){
-        db = dbHelper.getReadableDatabase();
+        open();
         String res="";
         String req="SELECT cis from code where cip="+cip;
-
-
         Cursor cursor = db.rawQuery(req, null);
         if (cursor.moveToFirst()) {
             do {
                 res=cursor.getString(0);
             } while (cursor.moveToNext());
         }
-        this.close();
+        close();
         return res;
     }
     public List<Code> getAll(){
-        this.open();
-        List<Code> res=null;
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        List<Code> codeList = new ArrayList<Code>();
+        open();
         Cursor cursor = db.rawQuery(SEARCH_ALL_CODE, null);
+// looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                res.add(new Code(cursor.getString(0),cursor.getString(1)));
+                Code code = new Code(cursor.getString(1),cursor.getString(2));
+
+                codeList.add(code);
             } while (cursor.moveToNext());
         }
-        return res;
+        close();
+        return codeList;
     }
     public void initialize(AssetManager mngr){
 
@@ -112,7 +109,4 @@ public class CodeDAO {
         }
         return results;
     }
-
-
-
 }

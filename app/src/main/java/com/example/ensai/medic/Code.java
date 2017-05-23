@@ -5,10 +5,12 @@ package com.example.ensai.medic;
  */
 
 public class Code {
-   private String cis;
+
+    private String cis;
     private String cip;
     public Code(String cis,String cip){
-
+setCip(cip);
+        setCis(cis);
     }
     public void setCip(String cip){
         this.cip=cip;

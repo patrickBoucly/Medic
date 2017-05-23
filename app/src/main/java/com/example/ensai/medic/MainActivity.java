@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -34,23 +35,13 @@ public class MainActivity extends Activity {
     private Button geoloc;
     private Button scan;
     private TextView textView;
-    public SQLiteDatabase base;
+    public static MySQLiteHelper bdd=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MySQLiteHelper bdd=new MySQLiteHelper(this);
-        bdd.getWritableDatabase();
-
-
-
-      AssetManager mngr=getAssets();
-       bdd.initialize(mngr);
-
-
-
-
+        bdd=new MySQLiteHelper(this);
         buttonPharma = (Button) findViewById((R.id.menu_pharma));
         ajouter_medic = (Button) findViewById((R.id.ajouter_medic));
         vaccin = (Button) findViewById((R.id.vaccin));
